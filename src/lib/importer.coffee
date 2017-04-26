@@ -43,6 +43,7 @@ module.exports = class Importer
     # id          = item.ele "wp:post_id", {}, if post.id then post.id else Math.floor Math.random() * 100000
     title       = item.ele "title", {}, if post.title then post.title else ""
     name        = item.ele "wp:post_name", {}, if post.name then post.name else ""
+    id          = item.ele "wp:post_id", {}, if post.id then post.id else ""
     description = item.ele "description", if post.description then post.description else ""
     date        = item.ele "wp:post_date", {}, normalizeDate(post.date)
     status      = item.ele "wp:status", {}, if post.status then post.status else "publish"
