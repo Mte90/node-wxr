@@ -62,8 +62,9 @@ module.exports = class Importer
     excerptEncoded      = item.ele "excerpt:encoded" #, {}, if post.contentEncoded then post.contentEncoded else ""
     excerptEncodedCDATA = excerptEncoded.dat if post.excerptEncoded then post.excerptEncoded else ""
     if post.featured_image_id != ''
-      item.ele("wp:meta_key", {}, '_thumbnail_id')
-      item.ele("wp:meta_value", {}, post.featured_image_id)
+      postmeta = item.ele('wp:postmeta')
+      postmeta.ele("wp:meta_key", {}, '_thumbnail_id')
+      postmeta.ele("wp:meta_value", {}, post.featured_image_id)
     # add categories to post
     if post.categories?.length > 0
       for category in post.categories
