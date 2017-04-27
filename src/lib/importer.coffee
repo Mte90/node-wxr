@@ -104,6 +104,10 @@ module.exports = class Importer
 
       # <description></description>
       description = item.ele "description", if options.description then options.description else ""
+      
+      # <content:encoded><![CDATA[This is a picture of a cat I found]]></content:encoded>
+      contentEncoded = item.ele "content:encoded"
+      contentEncodedCDATA = contentEncoded.dat if options.contentEncoded then options.contentEncoded else ""
 
       # <excerpt:encoded><![CDATA[This is a picture of a cat I found]]></excerpt:encoded>
       excerptEncoded      = item.ele "excerpt:encoded"
@@ -113,13 +117,15 @@ module.exports = class Importer
       status = item.ele "wp:status", {}, if options.status then options.status else "inherit"
         
       # <wp:post_id>8888<wp:post_id>
-      id = item.ele("wp:post_id", {}, options.id);
+      id = item.ele "wp:post_id", {}, options.id
 
       # <wp:post_parent>300</wp:post_parent>
       parent = item.ele "wp:post_parent", {}, if options.parent then options.parent else 0
 
       # <wp:post_type>attachment</wp:post_type>
       type = item.ele "wp:post_type", {}, "attachment"
+      
+      item.ele "guid", {'isPermalink':false}, if options.attachmentURL then options.attachmentURL else 0
 
       # <wp:attachment_url>https://upload.wikimedia.org/wikipedia/commons/f/fc/Minka.jpg</wp:attachment_url>
       type = item.ele "wp:attachment_url", {}, if options.attachmentURL then options.attachmentURL else ""
