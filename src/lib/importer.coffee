@@ -125,7 +125,7 @@ module.exports = class Importer
       # <wp:post_type>attachment</wp:post_type>
       type = item.ele "wp:post_type", {}, "attachment"
       
-      item.ele "guid", {'isPermalink':false}, if options.attachmentURL then options.attachmentURL else 0
+      item.ele "wp:post_name", if options.name then options.name else ""
 
       # <wp:attachment_url>https://upload.wikimedia.org/wikipedia/commons/f/fc/Minka.jpg</wp:attachment_url>
       type = item.ele "wp:attachment_url", {}, if options.attachmentURL then options.attachmentURL else ""
