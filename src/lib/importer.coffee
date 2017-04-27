@@ -46,6 +46,7 @@ module.exports = class Importer
     id          = item.ele "wp:post_id", {}, if post.id then post.id else ""
     description = item.ele "description", if post.description then post.description else ""
     date        = item.ele "wp:post_date", {}, normalizeDate(post.date)
+    id = item.ele "wp:post_id", {}, normalizeDate(post.id)
     status      = item.ele "wp:status", {}, if post.status then post.status else "publish"
     parent      = item.ele "wp:post_parent", {}, 0
     type        = item.ele "wp:post_type", {}, "post"
@@ -60,7 +61,9 @@ module.exports = class Importer
     # excerpt, HTML
     excerptEncoded      = item.ele "excerpt:encoded" #, {}, if post.contentEncoded then post.contentEncoded else ""
     excerptEncodedCDATA = excerptEncoded.dat if post.excerptEncoded then post.excerptEncoded else ""
-
+    if post.featured_image_id != ''
+      item.ele("wp:meta_key", {}, '_thumbnail_id')
+      item.ele("wp:meta_value", {}, post.featured_image_id)
     # add categories to post
     if post.categories?.length > 0
       for category in post.categories
@@ -107,6 +110,9 @@ module.exports = class Importer
 
       # <wp:status>inherit</wp:status>
       status = item.ele "wp:status", {}, if options.status then options.status else "inherit"
+        
+      # <wp:post_id>8888<wp:post_id>
+      id = item.ele("wp:post_id", {}, options.id);
 
       # <wp:post_parent>300</wp:post_parent>
       parent = item.ele "wp:post_parent", {}, if options.parent then options.parent else 0
